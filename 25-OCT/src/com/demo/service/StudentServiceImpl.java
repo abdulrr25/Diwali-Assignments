@@ -1,21 +1,20 @@
 package com.demo.service;
 
-import com.demo.beans.Student;
-import com.demo.dao.StudentDao;
-import com.demo.dao.StudentDaoImpl;
-import com.demo.exception.LowAttendanceException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
+import com.demo.beans.Student;
+import com.demo.dao.StudentDao;
+import com.demo.dao.StudentDaoImpl;
+import com.demo.exception.LowAttendanceException;
+
 public class StudentServiceImpl implements StudentService {
     
-    // Dependency Inversion Principle: Depend on interface, not implementation
     private StudentDao sdao = new StudentDaoImpl(); 
     private Scanner sc = new Scanner(System.in);
     private final String FILE_NAME = "studentdata1.txt"; 
     
-    // --- Helper Logic (Required 2 & 3) ---
     private String calculateGrade(Student student) throws LowAttendanceException {
         if (student.getAttendancePercentage() < 60.0) {
             throw new LowAttendanceException("Grade blocked due to attendance < 60%.");
@@ -28,7 +27,6 @@ public class StudentServiceImpl implements StudentService {
     }
     
     private void createInitialData() {
-        // Creates the initial 10 students if the file is empty/non-existent
         sdao.save(new Student(101, "Alice", "CS", 92.5, 95.0));
         sdao.save(new Student(102, "Bob", "EE", 55.0, 88.0));  
         sdao.save(new Student(103, "Charlie", "ME", 78.0, 75.0));
@@ -41,7 +39,6 @@ public class StudentServiceImpl implements StudentService {
         sdao.save(new Student(110, "Jack", "EE", 59.9, 72.0)); 
     }
     
-    // --- Interface Method Implementations ---
 
     @Override
     public void readFile(String fname) {
@@ -74,7 +71,7 @@ public class StudentServiceImpl implements StudentService {
             newStudent.setGrade(calculateGrade(newStudent));
         } catch (LowAttendanceException e) {
             newStudent.setGrade("N/A (LOW ATT)");
-            System.err.println("🚫 Warning: " + e.getMessage());
+            System.err.println("Warning: " + e.getMessage());
         }
         
         return sdao.save(newStudent);
@@ -89,7 +86,7 @@ public class StudentServiceImpl implements StudentService {
             } catch (LowAttendanceException e) {
                 s.setGrade("N/A (LOW ATT)");
                 // Display the exception message during processing
-                System.err.println("🚫 FAILED for " + s.getSname() + ": " + e.getMessage());
+                System.err.println("FAILED for " + s.getSname() + ": " + e.getMessage());
             }
         }
     }

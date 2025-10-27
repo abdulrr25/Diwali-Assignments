@@ -1,9 +1,15 @@
 package com.demo.dao;
 
-import com.demo.beans.Student;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.demo.beans.Student;
 
 public class StudentDaoImpl implements StudentDao {
     
@@ -20,9 +26,9 @@ public class StudentDaoImpl implements StudentDao {
         if (f.exists()) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fname))) {
                 studentList = (List<Student>) ois.readObject(); 
-                System.out.println("✅ Data loaded: " + studentList.size() + " students.");
+                System.out.println("Data loaded: " + studentList.size() + " students.");
             } catch (IOException | ClassNotFoundException e) {
-                System.err.println("❌ Error loading data: " + e.getMessage());
+                System.err.println("Error loading data: " + e.getMessage());
             }
         }
     }
@@ -31,9 +37,9 @@ public class StudentDaoImpl implements StudentDao {
     public void writeData(String fname) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fname))) {
             oos.writeObject(studentList);
-            System.out.println("✅ Data saved successfully to " + fname);
+            System.out.println("Data saved successfully to " + fname);
         } catch (IOException e) {
-            System.err.println("❌ Error saving data: " + e.getMessage());
+            System.err.println("Error saving data: " + e.getMessage());
         }
     }
 

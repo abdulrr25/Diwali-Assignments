@@ -1,17 +1,17 @@
 package com.demo.test;
 
+import java.util.List;
+import java.util.Scanner;
+
 import com.demo.beans.Student;
 import com.demo.service.StudentService;
 import com.demo.service.StudentServiceImpl;
-import java.util.List;
-import java.util.Scanner;
 
 public class TestStudent {
 
     public static void main(String[] args) {
         
         Scanner sc = new Scanner(System.in);
-        // Initializing the service implicitly loads data and creates initial students if needed.
         StudentService sservice = new StudentServiceImpl();
         sservice.readFile("studentdata1.txt");
         int ch = 0;
@@ -36,44 +36,44 @@ public class TestStudent {
             }
 
             switch(ch) {
-                case 1 -> { // CREATE
+                case 1 -> { 
                     boolean status = sservice.addNewStudent();
                     if(status) {
                     	System.out.println("New Student Added");
                     }
                 }
-                case 2 -> { // READ ALL
+                case 2 -> { 
                     System.out.println("\n--- All Students List ---");
                     sservice.displayAllStudents().forEach(System.out::println);
                 }
-                case 3 -> { // READ BY ID
+                case 3 -> { 
                     System.out.print("Enter Roll No to find: ");
                     int rollno = sc.nextInt();
                     Student s = sservice.findStudent(rollno);
                     if (s != null) {
-                        System.out.println("✅ Student Found: " + s);
+                        System.out.println("Student Found: " + s);
                     } else {
-                        System.out.println("❌ Student with Roll No " + rollno + " not found.");
+                        System.out.println("Student with Roll No " + rollno + " not found.");
                     }
                 }
-                case 4 -> { // DELETE
+                case 4 -> {
                     System.out.print("Enter Roll No to delete: ");
                     int rollno = sc.nextInt();
                     if (sservice.removeStudent(rollno)) {
-                        System.out.println("✅ Student with Roll No " + rollno + " deleted successfully.");
+                        System.out.println("Student with Roll No " + rollno + " deleted successfully.");
                     } else {
-                        System.out.println("❌ Deletion failed. Student not found.");
+                        System.out.println("Deletion failed. Student not found.");
                     }
                 }
-                case 5 -> { // SORTED READ (Requirement 5)
+                case 5 -> { // SORTED READ 
                     System.out.println("\n--- Students Sorted by Attendance (Highest First) ---");
                     List<Student> sortedList = sservice.getSortedByAttendance();
                     sortedList.forEach(System.out::println);
                 }
-                case 6 -> { // GRADE CALCULATION (Business Rule Demo)
+                case 6 -> { 
                     sservice.processGrades();
                 }
-                case 7 -> { // EXIT and SAVE (Requirement 4)
+                case 7 -> {
                     sservice.closeApp();
                     System.out.println("Application closed and data saved.");
                 }

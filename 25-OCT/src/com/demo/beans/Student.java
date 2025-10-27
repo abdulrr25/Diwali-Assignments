@@ -11,7 +11,7 @@ public class Student implements Serializable {
     private String course;
     private double attendancePercentage;
     private double score;
-    private String grade; // Field to hold the calculated grade
+    private String grade; 
 
     public Student() {
     	super();
